@@ -71,18 +71,18 @@ app.use(async (ctx, next) => {
 /* TODO:
     Add more even listeners for the purpose of logging
 */
-app.addEventListener('listen', ({secure, hostname, port}) => {
+app.addEventListener("listen", ({ secure, hostname, port }) => {
   const protocol = secure ? "https://" : "http://";
   const url = `${protocol}${hostname ?? "localhost"}:${port}`;
-  console.log(`Listening on ${url}`)
-})
+  console.log(`Listening on ${url}`);
+});
 
 /* TODO:
     Error checking
 */
 async function run(hostname: string, port: number) {
   await app.listen({
-    port: port
+    port: port,
   });
 }
 
