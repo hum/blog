@@ -1,6 +1,6 @@
 import { Application, send } from "./deps.ts";
 import { adapterFactory, engineFactory, viewEngine } from "./deps.ts";
-import router from "./router.ts";
+import { router } from "./router.ts";
 import parser from "./parser.ts";
 
 const HOSTNAME = Deno.env.get("BLOG_HOSTNAME") ?? "0.0.0.0";
@@ -17,6 +17,10 @@ app.use(viewEngine(oakAdapter, ejsEngine, {
 app.use(router.routes());
 app.use(router.allowedMethods());
 
+/* TODO:
+    1. Proper erorr logging to a file
+    2. Proper handling of the actual errors -- maybe wrappers around them?
+*/
 app.use(async (ctx, next) => {
   try {
     await next();
@@ -26,6 +30,10 @@ app.use(async (ctx, next) => {
   }
 });
 
+/* TODO:
+    1. Properly bundle up css files -- compress
+    2. Route through router.ts
+*/
 app.use(async (ctx, next) => {
   const filepath = ctx.request.url.pathname;
 
@@ -38,6 +46,11 @@ app.use(async (ctx, next) => {
   await next();
 });
 
+/* TODO:
+    1. Refactor
+    2. Error checking
+    3. Redirecting to 404 if bad path
+*/
 app.use(async (ctx, next) => {
   const filepath = ctx.request.url.pathname;
 
@@ -55,14 +68,19 @@ app.use(async (ctx, next) => {
   }
 });
 
+/* TODO:
+    Add more even listeners for the purpose of logging
+*/
 app.addEventListener('listen', ({secure, hostname, port}) => {
   const protocol = secure ? "https://" : "http://";
   const url = `${protocol}${hostname ?? "localhost"}:${port}`;
   console.log(`Listening on ${url}`)
 })
 
+/* TODO:
+    Error checking
+*/
 async function run(hostname: string, port: number) {
-  console.log(`>>> Server is running at ${hostname}:${port}`);
   await app.listen({
     port: port
   });

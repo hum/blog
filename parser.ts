@@ -13,6 +13,10 @@ export class Parser {
     this.decoder = new TextDecoder("utf-8");
   }
 
+  /* TODO:
+        1. Refactor
+        2. Error checking
+  */
   async createMarkdownFromText(text: string): Promise<Uint8Array> {
     const markdown = this.decoder.decode(this.encoder.encode(text));
     const markup = Marked.parse(markdown);
@@ -20,7 +24,7 @@ export class Parser {
       text: markup.content,
     });
     const result = new Uint8Array(10000);
-    output.read(result);
+    await output.read(result);
     return result;
   }
 
@@ -33,6 +37,9 @@ export class Parser {
     return undefined;
   }
 
+  /* TODO:
+        Allow fetching articles (Markdown files) from a specific URL
+  */
   async getArticleList(): Promise<Article[]> {
     if (articles.length > 0) {
       return articles;
@@ -47,6 +54,10 @@ export class Parser {
     return articles;
   }
 
+  /* TODO:
+        Include time/date metadata into the files for sorting purposes
+        e.g.: <meta date="1-1-1970">
+  */
   async createArticle(filepath: string): Promise<Article> {
     const text = await Deno.readTextFile("./" + filepath);
     const [title, description]: [string, string] = this.getMetadata(text);
@@ -69,19 +80,6 @@ export class Parser {
     const regexp = new RegExp('"([^"]+)"', "g");
     const data = [...tag.matchAll(regexp)];
     return [String(data[0][1]), String(data[1][1])];
-  }
-
-  async fileExists(filename: string): Promise<boolean> {
-    try {
-      await Deno.stat(filename);
-    } catch (err) {
-      if (err instanceof Deno.errors.NotFound) {
-        return false;
-      }
-      console.log(err);
-      return false;
-    }
-    return true;
   }
 }
 
