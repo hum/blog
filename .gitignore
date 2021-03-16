@@ -1,0 +1,6 @@
+*.log
+*.gz
+.env
+coverage
+.DS_Store
+Tumbs.db
