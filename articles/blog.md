@@ -21,8 +21,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dictum elit a le
 
 Nulla bibendum lacus quis odio sodales tempus. Phasellus nec vehicula quam. Morbi at massa odio. Aliquam consectetur erat vitae mauris convallis, eget tincidunt erat tincidunt. Nullam pretium sagittis eros id tincidunt. Nam suscipit dictum dui at ultrices. Aenean fermentum tincidunt facilisis. Donec orci odio, lobortis at volutpat dictum, gravida nec elit. Nullam at orci sem. Maecenas ultrices euismod nulla. Duis egestas quam non diam finibus fringilla. Suspendisse ornare, velit ut consequat placerat, velit nisl fermentum massa, vel sodales felis purus at metus. Nunc laoreet turpis ac lacus molestie ultricies. Integer nec sem sed ex eleifend tincidunt sit amet non tortor. Morbi vestibulum consequat nisi vitae eleifend.
 
-<img src="https://wallpaperaccess.com/full/871983.jpg" width="200" height="200" />
-
 Donec et dolor ligula. Morbi in volutpat orci. Ut id nunc dapibus, pulvinar eros nec, sollicitudin odio. Nunc quis ex sed purus posuere ultricies et ac massa. Nulla ornare pharetra consequat. Vestibulum et mauris sed leo facilisis convallis. Phasellus blandit neque nec tortor eleifend placerat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Quisque metus urna, vestibulum non condimentum non, ullamcorper at risus. In laoreet tellus vitae erat rutrum, in luctus arcu molestie. Ut bibendum eros nec lorem pulvinar viverra. Nam neque dui, scelerisque et consequat vitae, sollicitudin sed metus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis euismod risus quis tellus varius lacinia.
 
 <script src="https://gist.github.com/westc/afac9258389fdfd2fdaf134ffaa0e923.js#L10"></script>
