@@ -1,5 +1,5 @@
-# <div style="text-align: center;">Blog</div>
----
+# <div style="align:center">Blog</div>
+
 A personal blog written with [Deno](https://github.com/denoland/deno), which serves static HTML files that are parsed from `articles/` Markdown files.
 
 You can visit it [here](http://hum.sh).
