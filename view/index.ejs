@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <link rel="stylesheet" type="text/css" media="screen" href="/static/min_styles.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/static/main.css" />
         <link rel="preconnect" href="https://fonts.gstatic.com"> 
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet">
     </head>
@@ -18,11 +18,14 @@
                         <div class="post">
                             <div class="post-header">
                                 <div class="matter">
-                                    <h4 class="title small">
+                                    <h2 class="title small">
                                         <a href="<%= article.link %>"><%= article.title %></a>
-                                    </h4>
+                                    </h2>
                                     <span class="description">
                                         <%= article.description %>
+                                    </span>
+                                    <span class="post-date">
+                                        10-10-2020
                                     </span>
                                 </div>
                             </div>
@@ -30,13 +33,13 @@
                     <% }) %>
                 </div>
             </div>
-        </div>
-        <div class="footer wrapper">
-            <nav class="nav">
-                <div>
-                    <a href="">Buy me a coffee ☕️</a> || <a href="https://github.com/hum">GitHub</a>
-                </div>
-            </nav>
+            <div class="footer">
+                <nav class="nav">
+                    <div>
+                        <a href="">Buy me a coffee ☕️</a> || <a href="https://github.com/hum">GitHub</a>
+                    </div>
+                </nav>
+            </div>
         </div>
     </body>
 </html>
