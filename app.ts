@@ -63,7 +63,7 @@ app.use(async (ctx, next) => {
         // Cache the parsed markdown body
         article.body = await parser.createMarkdownFromText(
           article.text,
-        )
+        );
       }
       ctx.response.headers.set("Content-Type", "text/html");
       ctx.response.body = article.body;
@@ -84,7 +84,7 @@ app.addEventListener("listen", ({ secure, hostname, port }) => {
     Error checking
 */
 async function run(hostname: string, port: number) {
-  const location: string | undefined = Deno.env.get("BLOG_ENV")
+  const location: string | undefined = Deno.env.get("BLOG_ENV");
   // Only serve over HTTPS in production
   if (location && location == "PRODUCTION") {
     await app.listen({
@@ -92,15 +92,14 @@ async function run(hostname: string, port: number) {
       port: port,
       secure: true,
       certFile: "./.conf/tls/cert.crt",
-      keyFile: "./.conf/tls/key.key"
+      keyFile: "./.conf/tls/key.key",
     });
   } else {
     await app.listen({
       hostname: hostname,
       port: port,
-    })
+    });
   }
- 
 }
 
 if (import.meta.main) {

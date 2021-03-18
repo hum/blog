@@ -3,7 +3,7 @@ interface Article {
   title: string;
   description: string;
   text: string;
-  date: string,
+  date: string;
   link: string;
   body?: Uint8Array;
 }
