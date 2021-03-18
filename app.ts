@@ -84,8 +84,8 @@ async function run(hostname: string, port: number) {
   await app.listen({
     port: port,
     secure: true,
-    certFile: "./.conf/tls/certFile.crt",
-    keyFile: "./.conf/tls/certKey.key"
+    certFile: "./.conf/tls/cert.crt",
+    keyFile: "./.conf/tls/key.key"
   });
 }
 
