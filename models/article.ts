@@ -1,9 +1,9 @@
 interface Article {
   filename: string;
   title: string;
-  day?: string;
-  month?: string;
   description: string;
   text: string;
+  date: string,
   link: string;
+  body?: Uint8Array;
 }

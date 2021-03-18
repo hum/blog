@@ -23,6 +23,10 @@ export class Parser {
     const output = await renderFile(`${Deno.cwd()}/view/article.ejs`, {
       text: markup.content,
     });
+    /* TODO:
+          Maybe have a better way to calculate the size
+          rather than a hard-coded length of "10,000"
+    */
     const result = new Uint8Array(10000);
     await output.read(result);
     return result;
@@ -60,26 +64,37 @@ export class Parser {
   */
   async createArticle(filepath: string): Promise<Article> {
     const text = await Deno.readTextFile("./" + filepath);
-    const [title, description]: [string, string] = this.getMetadata(text);
+    const [title, description, date] = this.getMetadata(text);
 
     return {
       filename: filepath.split("/")[1],
       title: title,
       description: description,
+      date: date,
       text: text,
       link: filepath,
     };
   }
 
-  private getMetadata(data: string): [string, string] {
+  private getMetadata(data: string): string[] {
     const line = data.split("\n")[0];
     return this.getValueFromMetadata(line);
   }
 
-  private getValueFromMetadata(tag: string): [string, string] {
+  private getValueFromMetadata(tag: string): string[] {
+    // Only matches values inside of quotation marks
+    // -- this is terrible and ad-hoc, but it's working
+    // e.g: <meta name="val">
+    // returns: val
     const regexp = new RegExp('"([^"]+)"', "g");
     const data = [...tag.matchAll(regexp)];
-    return [String(data[0][1]), String(data[1][1])];
+    const result: string[] = [];
+
+    for (const value of data) {
+      result.push(value[1]);
+    }
+
+    return result;
   }
 }
 
