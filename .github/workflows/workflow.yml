@@ -30,7 +30,7 @@ jobs:
         run: deno cache --unstable deps.ts
 
       - name: Run Tests
-        run: deno test -A --unstable
+        run: deno test -A --unstable tests/
 # TODO:        
 #  deploy:
 #    name: Deploy
