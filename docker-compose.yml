@@ -6,5 +6,6 @@ services:
     env_file:
       - .env
     build: .
+    restart: always
     ports:
       - "${OUTSIDE_PORT}:${BLOG_PORT}"
