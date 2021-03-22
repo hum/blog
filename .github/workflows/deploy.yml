@@ -15,7 +15,7 @@ jobs:
       id: wait-for-test
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        checkName: test
+        checkName: test (v1.x, ubuntu-latest)
         ref: ${{ github.event.pull_request.head.sha || github.sha }}
     - name: Deploy to production
       if: steps.wait-for-test.outputs.conclusion == 'success'
