@@ -15,21 +15,21 @@ async function getIndex(ctx: RouterContext) {
 
 async function getArticle(ctx: RouterContext) {
   const filename: string | undefined = ctx.params.filename;
-  if (filename) {
-    const article = parser.getArticle(filename);
-    if (article) {
-      if (!article.body) {
-        article.body = await parser.createMarkdownFromText(article);
-      }
-      ctx.response.headers.set("Content-Type", "text/html");
-      ctx.response.body = article.body;
-      return;
-    }
-    notFound(ctx, "Article was not found.");
+  if (!filename) {
+    // TODO:
+    // Better handling
+    throw new Error("Could not find filename");
+  }
+  const article = parser.getArticle(filename);
+  if (!article) {
+    notFound(ctx, "Could not find article");
     return;
   }
-  // Maybe redirect instead?
-  notFound(ctx, "Filename was not found.");
+  if (!article.body) {
+    article.body = await parser.createMarkdownFromText(article);
+  }
+  ctx.response.type = "text/html";
+  ctx.response.body = article.body;
 }
 
 async function getCSS(ctx: RouterContext) {

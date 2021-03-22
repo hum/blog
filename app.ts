@@ -3,6 +3,7 @@ import {
   Application,
   engineFactory,
   isHttpError,
+  log,
   viewEngine,
 } from "./deps.ts";
 import { router } from "./router.ts";
@@ -27,32 +28,24 @@ app.use(async (ctx, next) => {
       ctx.response.status = err.status;
       const { message, status, stack } = err;
       if (ctx.request.accepts("json")) {
-        ctx.response.body = { message, status, stack };
+        ctx.response.body = { message, status };
         ctx.response.type = "json";
       } else {
-        ctx.response.body = `${status} ${message}\n\n ${stack ?? ""}`;
+        ctx.response.body = `${status} ${message}`;
         ctx.response.type = "text/plain";
       }
-    } else {
-      // TODO:
-      // Log to log file instead
-      console.log(err);
-      throw err;
     }
+    throw err;
   }
 });
 
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-/* 
-  TODO:
-    Create 404 page
-*/
+app.addEventListener("error", (event) => {
+  log.error(event.error);
+});
 
-/* TODO:
-    Add more even listeners for the purpose of logging
-*/
 app.addEventListener("listen", ({ secure, hostname, port }) => {
   const protocol = secure ? "https://" : "http://";
   const url = `${protocol}${hostname ?? "localhost"}:${port}`;
