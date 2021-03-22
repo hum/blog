@@ -61,29 +61,22 @@ app.addEventListener("listen", ({ secure, hostname, port }) => {
 
 async function run(hostname: string, port: number) {
   const location: string | undefined = Deno.env.get("BLOG_ENV");
-  try {
-    // Only serve over HTTPS in production
-    if (location && location == "PRODUCTION") {
-      await app.listen({
-        hostname: hostname,
-        port: port,
-        secure: true,
-        // TODO:
-        // Move TSL/SSL to the reverse-proxy layer
-        certFile: "./.conf/tls/cert.crt",
-        keyFile: "./.conf/tls/key.key",
-      });
-    } else {
-      await app.listen({
-        hostname: hostname,
-        port: port,
-      });
-    }
-  } catch (err) {
-    // TODO:
-    // log errors into a rotating log file
-    console.log(err);
-    throw err;
+  // Only serve over HTTPS in production
+  if (location && location == "PRODUCTION") {
+    await app.listen({
+      hostname: hostname,
+      port: port,
+      secure: true,
+      // TODO:
+      // Move TSL/SSL to the reverse-proxy layer
+      certFile: "./.conf/tls/cert.crt",
+      keyFile: "./.conf/tls/key.key",
+    });
+  } else {
+    await app.listen({
+      hostname: hostname,
+      port: port,
+    });
   }
 }
 
