@@ -1,4 +1,4 @@
-import { Parser, Router, RouterContext, send } from "./deps.ts";
+import { Parser, Router, RouterContext, send, Status } from "./deps.ts";
 
 const router = new Router();
 const parser = new Parser();
@@ -18,18 +18,17 @@ async function getArticle(ctx: RouterContext) {
     const article = parser.getArticle(filename);
     if (article) {
       if (!article.body) {
-        article.body = await parser.createMarkdownFromText(
-          article.text,
-        );
+        article.body = await parser.createMarkdownFromText(article);
       }
       ctx.response.headers.set("Content-Type", "text/html");
       ctx.response.body = article.body;
+      return;
     }
-    // TODO:
-    // Handle article not found
+    notFound(ctx, "Article was not found.");
+    return;
   }
-  // TODO:
-  // Handle undefined filename
+  // Maybe redirect instead?
+  notFound(ctx, "Filename was not found.");
 }
 
 async function getCSS(ctx: RouterContext) {
@@ -39,6 +38,11 @@ async function getCSS(ctx: RouterContext) {
       root: `${Deno.cwd()}/static`,
     });
   }
+}
+
+function notFound(ctx: RouterContext, message: string) {
+  ctx.response.status = Status.NotFound;
+  ctx.render("notfound", { text: message });
 }
 
 export { router };

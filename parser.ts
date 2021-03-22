@@ -14,11 +14,12 @@ export class Parser {
         1. Refactor
         2. Error checking
   */
-  async createMarkdownFromText(text: string): Promise<Uint8Array> {
-    const markdown = this.decoder.decode(this.encoder.encode(text));
+  async createMarkdownFromText(article: Article): Promise<Uint8Array> {
+    const markdown = this.decoder.decode(this.encoder.encode(article.text));
     const markup = Marked.parse(markdown);
     const output = await renderFile(`${Deno.cwd()}/view/article.ejs`, {
-      text: markup.content,
+      title: article.title,
+      articleText: markup.content,
     });
     /* TODO:
           Maybe have a better way to calculate the size
