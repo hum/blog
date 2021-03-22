@@ -1,8 +1,7 @@
 name: Deploy
 
 on:
-  repository_dispatch: 
-    types: [build_success]
+  push:
 
 jobs:
   deploy:
@@ -10,13 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - uses: actions/checkout@v2
     - name: Wait on build
-      uses: lewagon/wait-on-check-action@v0.2
+      uses: lewagon/wait-on-check-action@master
       with:
         ref: master
         check-name: test
-        repo-token: ${{ secrets.TOKEN }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
         wait-interval: 20
+        running-workflow-name: 'deploy'
     - name: Deploy to production
       uses: appleboy/ssh-action@master
       with:
