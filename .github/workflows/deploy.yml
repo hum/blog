@@ -1,8 +1,7 @@
 name: Deploy
 
 on:
-  repository_dispatch: 
-    types: [build_success]
+  push:
 
 jobs:
   deploy:
@@ -10,14 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Wait on build
-      uses: lewagon/wait-on-check-action@v0.2
+    - uses: actions/checkout@v2
+    - name: Wait For Check
+      uses: fountainhead/action-wait-for-check@v1.0.0
+      id: wait-for-test
       with:
-        ref: master
-        check-name: test
-        repo-token: ${{ secrets.TOKEN }}
-        wait-interval: 20
+        token: ${{ secrets.GITHUB_TOKEN }}
+        checkName: test (v1.x, ubuntu-latest)
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
     - name: Deploy to production
+      if: steps.wait-for-test.outputs.conclusion == 'success'
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
