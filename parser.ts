@@ -1,4 +1,5 @@
-import { Article, Marked, renderFile, walk } from "./deps.ts";
+import { Marked, renderFile, walk } from "./deps.ts";
+import { Article } from "./models/article.ts";
 
 const articles: Article[] = [];
 

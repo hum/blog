@@ -1,4 +1,5 @@
-import { Parser, Router, RouterContext, send, Status } from "./deps.ts";
+import { Router, RouterContext, send, Status } from "./deps.ts";
+import { Parser } from "./parser.ts";
 
 const router = new Router();
 const parser = new Parser();

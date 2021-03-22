@@ -14,5 +14,3 @@ export {
 } from "https://deno.land/x/view_engine@v1.4.5/mod.ts";
 export { renderFile } from "https://deno.land/x/dejs@0.9.3/mod.ts";
 export { walk } from "https://deno.land/std@0.90.0/fs/mod.ts";
-export { Parser } from "./parser.ts";
-export type { Article } from "./models/article.ts";
