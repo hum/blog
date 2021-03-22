@@ -10,13 +10,11 @@ router
   .get("/static/:filename", getCSS);
 
 async function getIndex(ctx: RouterContext) {
-  console.log("Rendering index.html");
   ctx.render("index", { articles: await parser.getArticleList() });
 }
 
 async function getArticle(ctx: RouterContext) {
   const filename: string | undefined = ctx.params.filename;
-  console.log(`serving article file for ${filename}`);
   if (filename) {
     const article = parser.getArticle(filename);
     if (article) {
@@ -37,7 +35,6 @@ async function getArticle(ctx: RouterContext) {
 
 async function getCSS(ctx: RouterContext) {
   const filename: string | undefined = ctx.params.filename;
-  console.log(`serving static file for ${filename}`);
   if (filename) {
     await send(ctx, filename, {
       root: `${Deno.cwd()}/static`,
