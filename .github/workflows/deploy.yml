@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  repository_dispatch: 
+    types: [build_success]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Wait on build
+      uses: lewagon/wait-on-check-action@v0.2
+      with:
+        ref: master
+        check-name: test
+        repo-token: ${{ secrets.TOKEN }}
+        wait-interval: 20
+    - name: Deploy to production
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: | 
+          cd projects/blog
+          git pull
+          docker-compose up --build -d     
