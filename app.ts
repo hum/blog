@@ -1,7 +1,11 @@
-import { Application, send } from "./deps.ts";
-import { adapterFactory, engineFactory, viewEngine } from "./deps.ts";
+import {
+  adapterFactory,
+  Application,
+  engineFactory,
+  isHttpError,
+  viewEngine,
+} from "./deps.ts";
 import { router } from "./router.ts";
-import parser from "./parser.ts";
 
 const HOSTNAME = Deno.env.get("BLOG_HOSTNAME") ?? "0.0.0.0";
 const PORT = Deno.env.get("BLOG_PORT") ?? "8080";
@@ -14,62 +18,37 @@ app.use(viewEngine(oakAdapter, ejsEngine, {
   viewRoot: "view",
   viewExt: ".ejs",
 }));
-app.use(router.routes());
-app.use(router.allowedMethods());
 
-/* TODO:
-    1. Proper erorr logging to a file
-    2. Proper handling of the actual errors -- maybe wrappers around them?
-*/
 app.use(async (ctx, next) => {
   try {
     await next();
   } catch (err) {
-    console.log(err);
-    throw err;
-  }
-});
-
-/* TODO:
-    1. Properly bundle up css files -- compress
-    2. Route through router.ts
-*/
-app.use(async (ctx, next) => {
-  const filepath = ctx.request.url.pathname;
-
-  if (filepath.includes(".css")) {
-    await send(ctx, filepath, {
-      root: `${Deno.cwd()}`,
-      gzip: true,
-    });
-  }
-  await next();
-});
-
-/* TODO:
-    1. Refactor
-    2. Error checking
-    3. Redirecting to 404 if bad path
-*/
-app.use(async (ctx, next) => {
-  const filepath = ctx.request.url.pathname;
-
-  if (filepath.includes("/articles") && filepath.includes(".md")) {
-    const articleFilename = filepath.split("/")[2];
-
-    const article = parser.getArticle(articleFilename);
-    if (article) {
-      if (!article.body) {
-        // Cache the parsed markdown body
-        article.body = await parser.createMarkdownFromText(
-          article.text,
-        );
+    if (isHttpError(err)) {
+      ctx.response.status = err.status;
+      const { message, status, stack } = err;
+      if (ctx.request.accepts("json")) {
+        ctx.response.body = { message, status, stack };
+        ctx.response.type = "json";
+      } else {
+        ctx.response.body = `${status} ${message}\n\n ${stack ?? ""}`;
+        ctx.response.type = "text/plain";
       }
-      ctx.response.headers.set("Content-Type", "text/html");
-      ctx.response.body = article.body;
+    } else {
+      // TODO:
+      // Log to log file instead
+      console.log(err);
+      throw err;
     }
   }
 });
+
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+/* 
+  TODO:
+    Create 404 page
+*/
 
 /* TODO:
     Add more even listeners for the purpose of logging
@@ -80,25 +59,31 @@ app.addEventListener("listen", ({ secure, hostname, port }) => {
   console.log(`Listening on ${url}`);
 });
 
-/* TODO:
-    Error checking
-*/
 async function run(hostname: string, port: number) {
   const location: string | undefined = Deno.env.get("BLOG_ENV");
-  // Only serve over HTTPS in production
-  if (location && location == "PRODUCTION") {
-    await app.listen({
-      hostname: hostname,
-      port: port,
-      secure: true,
-      certFile: "./.conf/tls/cert.crt",
-      keyFile: "./.conf/tls/key.key",
-    });
-  } else {
-    await app.listen({
-      hostname: hostname,
-      port: port,
-    });
+  try {
+    // Only serve over HTTPS in production
+    if (location && location == "PRODUCTION") {
+      await app.listen({
+        hostname: hostname,
+        port: port,
+        secure: true,
+        // TODO:
+        // Move TSL/SSL to the reverse-proxy layer
+        certFile: "./.conf/tls/cert.crt",
+        keyFile: "./.conf/tls/key.key",
+      });
+    } else {
+      await app.listen({
+        hostname: hostname,
+        port: port,
+      });
+    }
+  } catch (err) {
+    // TODO:
+    // log errors into a rotating log file
+    console.log(err);
+    throw err;
   }
 }
 

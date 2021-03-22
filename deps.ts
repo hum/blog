@@ -1,5 +1,9 @@
 export { Marked } from "https://deno.land/x/markdown@v2.0.0/mod.ts";
-export { Application, send } from "https://deno.land/x/oak@v6.2.0/mod.ts";
+export {
+  Application,
+  isHttpError,
+  send,
+} from "https://deno.land/x/oak@v6.2.0/mod.ts";
 export {
   adapterFactory,
   engineFactory,
