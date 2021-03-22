@@ -7,10 +7,10 @@ You can visit it [here](http://hum.sh).
 I'm not sure why I didn't use a simpler method, but hey, it works.
 
 ### TODO:
-  - [ ] Code refactor
-  - [ ] High-level error checking
+  - [x] Code refactor
+  - [x] High-level error checking
   - [ ] Add more event listeners
-  - [ ] Rewrite all routing through `router.ts`
-  - [ ] Fix parsing of meta tags - at least return an erorr
-  - [ ] Parse dates from meta tags
+  - [x] Rewrite all routing through `router.ts`
+  - [x] Fix parsing of meta tags
+  - [x] Parse dates from meta tags
   - [ ] Fix some CSS styling
