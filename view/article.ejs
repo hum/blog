@@ -1,10 +1,10 @@
 <html>
     <head>
         <meta charset="utf-8"/>
+        <title><%- title %> | hum.sh</title>
+        <link rel="icon" type="image/png" href="/static/favicon.ico"/>
         <link rel="stylesheet" type="text/css" media="screen" href="/static/main.css"/>
         <link rel="stylesheet" type="text/css" media="screen" href="/static/article.css"/>
-        <link rel="preconnect" href="https://fonts.gstatic.com"> 
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet">
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script>
     </head>
@@ -15,7 +15,7 @@
                 <div class="site-description"><p>A small piece of the internet dedicated to myself.</p></div>
             </div>
             <div class="article">
-                <%- text %>
+                <%- articleText %>
             </div>
             <div class="footer">
                 <nav class="nav">
