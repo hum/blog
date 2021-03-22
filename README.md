@@ -2,7 +2,7 @@
 
 A personal blog written with [Deno](https://github.com/denoland/deno), which serves static HTML files that are parsed from `articles/` Markdown files.
 
-You can visit it [here](http://hum.sh).
+You can visit it [here](https://hum.sh).
 
 I'm not sure why I didn't use a simpler method, but hey, it works.
 
