@@ -10,15 +10,15 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-    - name: Wait on build
-      uses: lewagon/wait-on-check-action@master
+    - name: Wait For Check
+      uses: fountainhead/action-wait-for-check@v1.0.0
+      id: wait-for-test
       with:
-        ref: master
-        check-name: test
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        wait-interval: 20
-        running-workflow-name: 'deploy'
+        token: ${{ secrets.GITHUB_TOKEN }}
+        checkName: test
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
     - name: Deploy to production
+      if: steps.wait-for-test.outputs.conclusion == 'success'
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
