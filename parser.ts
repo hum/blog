@@ -1,7 +1,4 @@
-import { Marked } from "./deps.ts";
-import { Article } from "./models/article.ts";
-import { walk } from "./deps.ts";
-import { renderFile } from "./deps.ts";
+import { Article, Marked, renderFile, walk } from "./deps.ts";
 
 const articles: Article[] = [];
 
@@ -32,7 +29,7 @@ export class Parser {
     return result;
   }
 
-  getArticle(filename: string): Article | null {
+  getArticle(filename: string): Article | undefined {
     for (const article of articles) {
       if (article.filename === filename) {
         return article;
@@ -93,10 +90,6 @@ export class Parser {
     for (const value of data) {
       result.push(value[1]);
     }
-
     return result;
   }
 }
-
-const parser = new Parser();
-export default parser;

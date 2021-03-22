@@ -1,8 +1,7 @@
-import { Router, RouterContext } from "https://deno.land/x/oak@v6.2.0/mod.ts";
-import parser from "./parser.ts";
-import { send } from "./deps.ts";
+import { Parser, Router, RouterContext, send } from "./deps.ts";
 
 const router = new Router();
+const parser = new Parser();
 
 router
   .get("/", getIndex)
