@@ -7,5 +7,7 @@ services:
       - .env
     build: .
     restart: always
+    volumes:
+      - ./:/blog
     ports:
       - "${OUTSIDE_PORT}:${BLOG_PORT}"
