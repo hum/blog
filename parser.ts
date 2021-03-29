@@ -40,9 +40,6 @@ export class Parser {
     return undefined;
   }
 
-  /* TODO:
-        Allow fetching articles (Markdown files) from a specific URL
-  */
   async getArticleList(): Promise<Article[]> {
     if (articles.length > 0) {
       return articles;
@@ -57,10 +54,6 @@ export class Parser {
     return articles;
   }
 
-  /* TODO:
-        Include time/date metadata into the files for sorting purposes
-        e.g.: <meta date="1-1-1970">
-  */
   async createArticle(filepath: string): Promise<Article> {
     const text = await Deno.readTextFile("./" + filepath);
     const [title, description, date] = this.getMetadata(text);
