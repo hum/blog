@@ -6,6 +6,8 @@ services:
     env_file:
       - .env
     build: .
+    # TODO:
+    # Add health checks to monitor if the site is up
     restart: always
     ports:
       - "${OUTSIDE_PORT}:${BLOG_PORT}"

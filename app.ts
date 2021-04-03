@@ -52,6 +52,11 @@ app.addEventListener("listen", ({ secure, hostname, port }) => {
   console.log(`Listening on ${url}`);
 });
 
+/* 
+  TODO:
+  Handle HTTP ConnectionReset error.
+    as described in: https://github.com/denoland/deno/issues/8107
+*/
 async function run(hostname: string, port: number) {
   const location: string | undefined = Deno.env.get("BLOG_ENV");
   // Only serve over HTTPS in production
