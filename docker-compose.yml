@@ -9,5 +9,7 @@ services:
     # TODO:
     # Add health checks to monitor if the site is up
     restart: always
+    volumes:
+      - ./:/blog
     ports:
       - "${OUTSIDE_PORT}:${BLOG_PORT}"

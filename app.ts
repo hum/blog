@@ -10,6 +10,7 @@ import { router } from "./router.ts";
 
 const HOSTNAME = Deno.env.get("BLOG_HOSTNAME") ?? "0.0.0.0";
 const PORT = Deno.env.get("BLOG_PORT") ?? "8080";
+const OUTSIDE_PORT = Deno.env.get("OUTSIDE_PORT") ?? "0000";
 
 const app = new Application();
 const ejsEngine = engineFactory.getEjsEngine();
@@ -49,7 +50,8 @@ app.addEventListener("error", (event) => {
 app.addEventListener("listen", ({ secure, hostname, port }) => {
   const protocol = secure ? "https://" : "http://";
   const url = `${protocol}${hostname ?? "localhost"}:${port}`;
-  console.log(`Listening on ${url}`);
+  const outUrl = `${protocol}${hostname ?? "localhost"}:${OUTSIDE_PORT}`;
+  console.log(`Listening on:\n   -> Container URL: ${url}\n   -> Outside URL: ${outUrl}`);
 });
 
 /* 

@@ -13,4 +13,3 @@ I'm not sure why I didn't use a simpler method, but hey, it works.
   - [x] Rewrite all routing through `router.ts`
   - [x] Fix parsing of meta tags
   - [x] Parse dates from meta tags
-  - [ ] Fix some CSS styling
