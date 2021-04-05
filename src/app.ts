@@ -69,8 +69,8 @@ async function run(hostname: string, port: number) {
       secure: true,
       // TODO:
       // Move TSL/SSL to the reverse-proxy layer
-      certFile: "./.conf/tls/cert.crt",
-      keyFile: "./.conf/tls/key.key",
+      certFile: "../.conf/tls/cert.crt",
+      keyFile: "../.conf/tls/key.key",
     });
   } else {
     await app.listen({
