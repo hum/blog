@@ -6,8 +6,6 @@ services:
     env_file:
       - .env
     build: .
-    # TODO:
-    # Add health checks to monitor if the site is up
     restart: always
     volumes:
       - ./src:/blog
